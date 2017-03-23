@@ -13,9 +13,19 @@ import debounce from '../../common/decorators/decorators';
 export class DemoComponent {
   @ViewChild('dayPicker') dayPicker: DpDayPickerComponent;
   demoFormat = 'DD-MM-YYYY';
+  numberOfDaysStay = 1;
+  // pickerMode = 'inline';
   readonly DAYS = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
   pickerMode = 'popup';
 
+  open() {
+      this.dayPicker.api.open();
+  }
+    
+  close() {
+        this.dayPicker.api.close();
+  } 
+  dateDep: Moment;
   date: Moment;
   dates: Moment[] = [];
 
