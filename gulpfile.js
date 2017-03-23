@@ -5,6 +5,7 @@ const less = require('less');
 const sourcemaps = require('gulp-sourcemaps');
 const merge = require('merge2');
 const tsProject = tsc.createProject('tsconfig.json');
+const xml2js = require('xml2js');
 
 const pluginOptions = {
   base: './src/app/',

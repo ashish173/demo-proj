@@ -8,6 +8,7 @@ import {FormsModule} from '@angular/forms';
 import {DpDatePickerModule} from '../dp-date-picker.module';
 import {MultiselectTestComponent} from './multiselect-test/multiselect-test.component';
 import { ModalModule } from 'ng2-bootstrap';
+import { HttpModule } from '@angular/http';
 
 import { DemoApiService } from './demo/demo.service.api';
 
@@ -16,6 +17,7 @@ import { DemoApiService } from './demo/demo.service.api';
     BrowserModule,
     FormsModule,
     DpDatePickerModule,
+    HttpModule,
     ModalModule.forRoot(),
     RouterModule.forRoot([
       {

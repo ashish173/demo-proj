@@ -70,16 +70,42 @@
         <div class="modal-body">
           <div class="date-selection">
             <div class="selected-date-arr">
-              Arrival :{{date}}
+              <label>Arrival Date</label><br>
+              <dp-day-picker id="datePicker"
+                        name="dateItem"
+                        #dateItem="ngModel"
+                        #dayPicker
+                        [(ngModel)]="date"
+                        (ngModelChange)="log($event)"
+                        [disabled]="disabled"
+                        [minDate]="validationMinDate"
+                        [maxDate]="validationMaxDate"
+                        [required]="required"
+                        [placeholder]="placeholder"
+                        [config]="config"
+                        [theme]="'dp-material'"></dp-day-picker>
             </div>
             <div class="selected-date-dep">
-              Departure: {{dateDep}}
+              <label>Departure Date</label><br>
+              <dp-day-picker id="datePicker"
+                        name="depDateItem"
+                        #depDateItem="ngModel"
+                        #dayPicker
+                        [(ngModel)]="dateDep"
+                        (ngModelChange)="log($event)"
+                        [disabled]="disabled"
+                        [minDate]="validationMinDate"
+                        [maxDate]="validationMaxDate"
+                        [required]="required"
+                        [placeholder]="placeholder"
+                        [config]="config"
+                        [theme]="'dp-material'"></dp-day-picker>
             </div> 
             <div class="guest">
               Guests: {{numberOfDaysStay}}
             </div> 
             <div class="price">
-              Price: $188
+              Price: {{ totalPrice }}
             </div> 
             <div class="book-now">
               <button class="btn btn-primary">Book</button>
@@ -87,17 +113,18 @@
           </div>
           <div class="room-list col-sm-12">
             <div class="room col-sm-3" *ngFor="let room of typesOfRooms">
-              <p>Room Name: {{room.name}}</p>
+              <!--<p>Room Name: {{room.name}}</p>-->
               <!--{{room | json}}-->
               <a >
               <img class="product-thumb" alt="img" [src]="room.images[0]['#text']">
               <div class="product-productMetaInfo">
                 <!--<div class="product-brand">{{ room.name }}</div>-->
-                <h2 class="product-product">{{ room.name }} </h2>
+                <h4 class="product-product">{{ room.name }} </h4>
+                <button class="btn btn-primary" (click)="updateRoomInventorySelection(room)">Select</button>
                 <div class="product-price">
                   <span>
                     <!-- Discounted price -->
-                    <span class="product-discountedPrice">$ 12</span>
+                    <!--<span class="product-discountedPrice">{{ }}</span>-->
                     <!-- Original price -->
                     <!--<span class="product-strike"> react-text: 485 Rs.  /react-text  react-text: 486 1699 /react-text </span>-->
                   </span>

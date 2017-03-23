@@ -44,12 +44,17 @@ export class DemoComponent {
   }];
   // Main api observable.
   availability$: Observable<any>;
+  availabilityData: any;
   typesOfRooms: any[]= [];
+  selectedRooms = [];// ['FAM-S', 'GDBL-S']; // This should be updated on user selecting rooms
+  totalPrice = '$0.00';
 
   constructor(private demoService: DemoApiService){
     // Pass dates in this request to service later and return JSON.
     this.availability$ = demoService.getAvialibility();
     this.availability$.subscribe(data => {
+      this.availabilityData = data;
+      // this.findTotalFare(data); // this should set the total price here.
       data.availability.inventory.inventoryItem.forEach(room => {
         this.typesOfRooms.push({
           name: room.description,
@@ -58,6 +63,37 @@ export class DemoComponent {
         });
       });
     });
+  }
+
+  /**
+   * Update selected rooms inventoryId
+   */
+  updateRoomInventorySelection(room) {
+    this.selectedRooms.push(room.inventoryCode); 
+    console.log('selected array', this.selectedRooms);
+    this.log(room);
+  }
+
+  /**
+   * Gets triggered each time new availability data is fetch.
+   * Returns thong 
+   */
+  findTotalFare(availabilityData: any) {
+    console.log('arr date', this.date);
+    console.log('dep date', this.dateDep);
+    if (this.date === undefined || this.dateDep === undefined || this.selectedRooms.length === 0) { return; }
+    this.calculatePrice(this.selectedRooms, availabilityData);
+
+  }
+
+  /** This method takes in room selections and availabilty data  
+   * and returns total price.
+   */
+  calculatePrice(selections, availabilityData) {
+    /* Add logic to it */
+    console.log('Calculating price now');
+    this.totalPrice = '$123.56';
+    // return { totalPrice: '$123.45' };
   }
 
   open() {
@@ -127,5 +163,8 @@ export class DemoComponent {
 
   log(item) {
     console.log(item);
+    // call this service with arrivalDate, departureDate
+    this.availability$ = this.demoService.getAvialibility();
+    this.findTotalFare(this.availabilityData); // this should set the total price here.
   }
 }
