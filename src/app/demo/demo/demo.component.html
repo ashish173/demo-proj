@@ -41,7 +41,7 @@
           <input name="numberDays" [(ngModel)]="numberOfDaysStay">
         </div>
         <div class="price-avail-button">
-          <button>Check Price & Availability</button>
+          <button (click)="lgModal.show()">Check Price & Availability</button>
         </div>
 
       </form>
@@ -49,11 +49,85 @@
 
     <div class="dp-inline" *ngIf="pickerMode === 'inline'">
       <label>Calendar</label><br>
-      <dp-calendar
+      <!--<dp-calendar
           [theme]="'dp-material'"
           [(selected)]="dates"
           (selectedChange)="log($event)"
           [config]="config">
-      </dp-calendar>
+      </dp-calendar>-->
     </div>
   </div>
+
+  <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Rooms Matching your dates</h4>
+          <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="date-selection">
+            <div class="selected-date-arr">
+              Arrival :{{date}}
+            </div>
+            <div class="selected-date-dep">
+              Departure: {{dateDep}}
+            </div> 
+            <div class="guest">
+              Guests: {{numberOfDaysStay}}
+            </div> 
+            <div class="price">
+              Price: $188
+            </div> 
+            <div class="book-now">
+              <button class="btn btn-primary">Book</button>
+            </div> 
+          </div>
+          <div class="room-list col-sm-12">
+            <div class="room col-sm-3" *ngFor="let room of typesOfRooms">
+              <p>Room Name: {{room.name}}</p>
+              <!--{{room | json}}-->
+              <a >
+              <img class="product-thumb" alt="img" [src]="room.images[0]['#text']">
+              <div class="product-productMetaInfo">
+                <!--<div class="product-brand">{{ room.name }}</div>-->
+                <h2 class="product-product">{{ room.name }} </h2>
+                <div class="product-price">
+                  <span>
+                    <!-- Discounted price -->
+                    <span class="product-discountedPrice">$ 12</span>
+                    <!-- Original price -->
+                    <!--<span class="product-strike"> react-text: 485 Rs.  /react-text  react-text: 486 1699 /react-text </span>-->
+                  </span>
+                  <!--Percentage off --><!--<span class="product-discountPercentage">(40% OFF)</span>-->
+                </div>
+                <!-- Product Size --><!--<div class="product-sizes">Sizes: S, M, L, XL, XXL</div>-->
+              </div>
+            </a>
+            <div class="product-sizeDisplayDiv">
+              <div class="product-sizeDisplayHeader">
+                <!--<span>Select a size</span>-->
+                <span class="myntraweb-sprite product-sizeDisplayRemoveMark sprites-remove"></span>
+              </div>
+              <!--<div class="product-sizeButtonsContaier">
+                <button class="product-sizeButton">S</button>
+                <button class="product-sizeButton">M</button>
+                <button class="product-sizeButton">L</button>
+                <button class="product-sizeButton">XL</button>
+                <button class="product-sizeButton">XXL</button>
+              </div>-->
+            </div>
+            <div class="product-actions">
+              <!--<span class="product-actionsButton product-wishlist">save</span>
+              <span class="product-actionsButton product-addToBag">
+                <span (click)="addToCart(product)">Add to bag</span>
+              </span>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+</div>

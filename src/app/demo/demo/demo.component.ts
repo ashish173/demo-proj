@@ -1,8 +1,11 @@
+import { Observable } from 'rxjs/Rx';
+import { DemoApiService } from './demo.service.api';
 import {Component, ViewChild, HostListener} from '@angular/core';
 import {DpDayPickerComponent} from '../../dp-day-picker/dp-day-picker.component';
 import {Moment} from 'moment';
 import {IDayPickerConfig} from '../../dp-day-picker/service/day-picker-config.model';
 import debounce from '../../common/decorators/decorators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'dp-demo',
@@ -17,14 +20,54 @@ export class DemoComponent {
   // pickerMode = 'inline';
   readonly DAYS = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
   pickerMode = 'popup';
+  rooms = [{
+    name: 'Hotel First',
+    id: 1
+  }, {
+    name: 'Hotel Second',
+    id: 2
+  }, {
+    name: 'Hotel Third',
+    id: 3
+  },
+  {
+    name: 'Hotel Fourth',
+    id: 4
+  },
+  {
+    name: 'Hotel Fifth',
+    id: 5
+  }, 
+  {
+    name: 'Hotel Sixth',
+    id: 6
+  }];
+  // Main api observable.
+  availability$: Observable<any>;
+  typesOfRooms: any[]= [];
+
+  constructor(private demoService: DemoApiService){
+    // Pass dates in this request to service later and return JSON.
+    this.availability$ = demoService.getAvialibility();
+    this.availability$.subscribe(data => {
+      data.availability.inventory.inventoryItem.forEach(room => {
+        this.typesOfRooms.push({
+          name: room.description,
+          inventoryCode: room.inventoryCode,
+          images: room.images.image
+        });
+      });
+    });
+  }
 
   open() {
       this.dayPicker.api.open();
   }
-    
+
   close() {
         this.dayPicker.api.close();
-  } 
+  }
+
   dateDep: Moment;
   date: Moment;
   dates: Moment[] = [];

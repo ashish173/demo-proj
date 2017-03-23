@@ -7,12 +7,16 @@ import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 import {DpDatePickerModule} from '../dp-date-picker.module';
 import {MultiselectTestComponent} from './multiselect-test/multiselect-test.component';
+import { ModalModule } from 'ng2-bootstrap';
+
+import { DemoApiService } from './demo/demo.service.api';
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
     DpDatePickerModule,
+    ModalModule.forRoot(),
     RouterModule.forRoot([
       {
         path: 'multiselect-test',
@@ -28,10 +32,12 @@ import {MultiselectTestComponent} from './multiselect-test/multiselect-test.comp
     DemoRootComponent,
     DemoComponent,
     MultiselectTestComponent,
+    
   ],
   entryComponents: [
     DpDayPickerComponent,
   ],
+  providers: [DemoApiService],
   bootstrap: [DemoRootComponent]
 })
 export class DemoModule {
