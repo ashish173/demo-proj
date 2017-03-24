@@ -52,16 +52,23 @@ export class DemoComponent {
   constructor(private demoService: DemoApiService){
     // Pass dates in this request to service later and return JSON.
     this.availability$ = demoService.getAvialibility();
-    this.availability$.subscribe(data => {
-      this.availabilityData = data;
-      // this.findTotalFare(data); // this should set the total price here.
-      data.availability.inventory.inventoryItem.forEach(room => {
-        this.typesOfRooms.push({
-          name: room.description,
-          inventoryCode: room.inventoryCode,
-          images: room.images.image
-        });
+    this.availability$.subscribe((data: Observable<any>) => {
+      data.subscribe(finalData => {
+        this.availabilityData = data;
+        console.log('final data', finalData);
+        const inventory = finalData.availability.inventory[0];
+        // debugger;
+        inventory.inventoryItem.forEach(room => {
+          this.typesOfRooms.push({
+            name: room['$'].description,
+            inventoryCode: room['$'].inventoryCode,
+            images: room.images[0].image[0]['_']
+          });
       });
+      })
+      // this.findTotalFare(data); // this should set the total price here.
+      console.log('availa', data);
+      
     });
   }
 

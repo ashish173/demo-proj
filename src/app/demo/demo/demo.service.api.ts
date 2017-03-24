@@ -1,9 +1,8 @@
+// import { xml2js } from 'xml2js';
+///<reference path="../../../../typings/modules/xml2js/index.d.ts"/>
+
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs/Rx";
-// import * as xmlToJson from '../../../../node_modules/xml2json/lib/xml2json';
-
-// declare var parser: any;
-
 import {
   Http,
   ConnectionBackend,
@@ -14,27 +13,44 @@ import {
   Request
 } from '@angular/http';
 
+import * as xml2js from 'xml2js';
+
 
 @Injectable()
 export class DemoApiService {
-  
-  xml: string = "<foo attr=\"value\">bar</foo>";
+  // xml2 = xml2Js;
+  xml = new xml2js.Builder().buildObject({
+        xml: {
+            div: "text"
+        }
+    });
 
-  constructor(private http: Http) { }
+ 
+
+  constructor(private http: Http) {
+    window['xmss'] = xml2js;
+  }
 
   getAvialibility() {
     console.log('in service');
-    // this.http.get('http://dev1.roomerdev.net:8080/services/bookingapi/availability1?hotel=chnl&channelCode=BBN&channelManagerCode=OWN&arrivalDate=2017-06-01&departureDate=2017-08-01')
-    //   .map((res: Response) => {
-    //     // let json_resp = this.x2js.xml_str2json(res);
-    //     // let out = xmlToJson.toJson(this.xml, {}); // (this.xml);
-    //     // window['parser'] = parser;
-    //     // console.log('output is ', out);
-    //     // console.log('response from server', json_resp);
-    //     // return res.json();
-    //   });
+    return this.http.get('http://dev1.roomerdev.net:8080/services/bookingapi/availability1?hotel=chnl&channelCode=BBN&channelManagerCode=OWN&arrivalDate=2017-06-01&departureDate=2017-08-01')
+      .map((res) => {
+        let parsedResp$: Observable<any>;
+        xml2js.parseString(res['_body'], (err, result) => {
+          console.log('res', result);
+          parsedResp$ = Observable.of(result);
+        });
+        return parsedResp$;
+        // debugger;
+        // let json_resp = this.x2js.xml_str2json(res);
+        // let out = xmlToJson.toJson(this.xml, {}); // (this.xml);
+        // window['parser'] = parser;
+        // console.log('output is ', out);
+        // console.log('response from server', json_resp);
+        // return res.json();
+      });
     // tslint:disable-next-line:no-use-before-declare
-    return Observable.of(API_MONTHS_RESPONSE);
+    // return Observable.of(API_MONTHS_RESPONSE);
   }
 
 };
