@@ -176,9 +176,7 @@ export class DemoComponent {
     console.log(item);
     // call this service with arrivalDate, departureDate
     // this.availability$ = this.demoService.getAvialibility(this.date, this.dateDep);
-    this.availability$.subscribe(data => {
-      this.fetchAndSanitizeData(data)
-    });
+    this.availability$.subscribe(data => this.fetchAndSanitizeData(data));
     this.findTotalFare(this.availabilityData); // this should set the total price here.
   }
 }
