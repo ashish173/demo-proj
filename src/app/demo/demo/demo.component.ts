@@ -66,6 +66,7 @@ export class DemoComponent {
       console.log('final data', finalData);
       const inventory = finalData.availability.inventory[0];
       // debugger;
+      this.typesOfRooms = [];
       inventory.inventoryItem.forEach(room => {
         this.typesOfRooms.push({
           name: room['$'].description,
