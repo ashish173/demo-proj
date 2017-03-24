@@ -31,9 +31,13 @@ export class DemoApiService {
     window['xmss'] = xml2js;
   }
 
-  getAvialibility() {
-    console.log('in service');
-    return this.http.get('http://dev1.roomerdev.net:8080/services/bookingapi/availability1?hotel=chnl&channelCode=BBN&channelManagerCode=OWN&arrivalDate=2017-06-01&departureDate=2017-08-01')
+  getAvialibility(arrDate, depDate) {
+    console.log('in service', arrDate, depDate);
+    // Change these values to todays date and todays date + 2.months
+    if (arrDate === undefined) { arrDate = '2017-06-01'; }
+    if (depDate === undefined) { depDate = '2017-08-01'; }
+    // return this.http.get('http://dev1.roomerdev.net:8080/services/bookingapi/availability1?hotel=chnl&channelCode=BBN&channelManagerCode=OWN&arrivalDate=2017-06-01&departureDate=2017-08-01')
+    return this.http.get(`http://dev1.roomerdev.net:8080/services/bookingapi/availability1?hotel=chnl&channelCode=BBN&channelManagerCode=OWN&arrivalDate=${arrDate}&departureDate=${depDate}`)
       .map((res) => {
         let parsedResp$: Observable<any>;
         xml2js.parseString(res['_body'], (err, result) => {
